@@ -6,6 +6,8 @@ int
 main(int argc, char **argv)
 {
   int i;
+  
+  printf("argc", argc);
 
   if(argc < 2){
     fprintf(2, "usage: kill pid...\n");
