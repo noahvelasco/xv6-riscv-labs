@@ -7,13 +7,11 @@ main(int argc, char **argv)
 {
   int i;
   
-  printf("argc", argc);
-
   if(argc < 2){
-    fprintf(2, "usage: kill pid...\n");
+    fprintf(2, "usage: sleeps...\n");
     exit(1);
   }
   for(i=1; i<argc; i++)
-    kill(atoi(argv[i]));
+    sleep(atoi(argv[i]));
   exit(0);
 }
