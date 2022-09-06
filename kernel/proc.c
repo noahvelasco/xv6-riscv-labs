@@ -5,6 +5,8 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "user/uproc.h"
+#include "user/user.h"
 
 struct cpu cpus[NCPU];
 
@@ -654,3 +656,39 @@ procdump(void)
     printf("\n");
   }
 }
+
+
+//HW1 - helper function for sys_getprocs that is filling out a processes info
+// Accessing kernel proc array and retrieves info for ALL processes 
+void procinfo(uproc *up){
+//    static char *states[] = {
+//      [UNUSED]    "unused",
+//      [SLEEPING]  "sleep ",
+//      [RUNNABLE]  "runble",
+//      [RUNNING]   "run   ",
+//      [ZOMBIE]    "zombie"
+//    };
+//  struct proc *p;
+//  char *state;
+
+  printf("\n");
+  for(p = proc; p < &proc[NPROC]; p++){
+    if(p->state == UNUSED)
+      continue;
+    if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
+      state = states[p->state];
+    else
+      state = "???";
+    printf("%d %s %s", p->pid, state, p->name);
+    printf("\n");
+    
+
+    up->pid = p->pid; //pid
+    up->state = p->state; //process state
+    up->size = p->size; //size of process memory 
+    up->ppid = p->parent->pid; //parent ID
+    up->name = p->name; //Proess command name
+  }
+}
+
+

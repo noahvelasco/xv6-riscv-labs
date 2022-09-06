@@ -20,25 +20,16 @@ main(int argc, char **argv)
 
 {
   struct uproc uproc[NPROC];
-
   int nprocs;
-
-  nprocs = getprocs(uproc);
+  nprocs = getprocs(uproc); //will return # of active processes
 
   if (nprocs < 0)
 
     exit(-1);
-
-
-
-  // You can remove the following print statement
-
+    
+    // You can remove the following print statement
   printf("%d processes\n", nprocs);
-
-
-
-
-
+    
   exit(0);
 
 }
