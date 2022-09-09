@@ -1,22 +1,18 @@
-/*
-
- * Skeleton code for ps.c
-
- */
-
 #include "kernel/param.h"
-
 #include "kernel/types.h"
-
 #include "user/uproc.h"
-
 #include "user/user.h"
+/*
+Ctrl-p should do this aswell
+
+2 main processes
+
+1 sleep  init
+2 sleep  sh
+*/
 
 
-
-int
-
-main(int argc, char **argv)
+int main(int argc, char **argv)
 
 {
   struct uproc uproc[NPROC];
@@ -28,7 +24,8 @@ main(int argc, char **argv)
     exit(-1);
     
     // You can remove the following print statement
-  printf("%d processes\n", nprocs);
+  printf("\n------ In PS -----");
+  printf("\n%d processes\n", nprocs);
     
   exit(0);
 

@@ -104,7 +104,7 @@ void            yield(void);
 int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
-void            procinfo(void); //HW #6---------------------------------------------------------
+int             procinfo(uint64 addr); //HW uint64 addr as alt #6---------------------------------------------------------
 
 
 // swtch.S

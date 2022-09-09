@@ -99,7 +99,7 @@ sys_uptime(void)
 
 //#6 HW1 - TODO - look at sys_sleep and call procinfo() from here. 
 uint64
-sys_getprocs(uproc *up)
+sys_getprocs(uint64 addr) //uint64 addr as alt
 {
 //  struct file *f;
 //  uint64 st; // user pointer to struct stat
@@ -108,7 +108,22 @@ sys_getprocs(uproc *up)
 //    return -1;
 //  return filestat(f, st); //in kernel/file.c and foes work of getting file info
 
-   return 0;
+//   return 0;
+
+    int numprocs = procinfo(addr);
+
+
+    printf("---------- getprocs() after procinfo call");
+    printf("\nnum proc >%u<", addr);    
+    printf("\nnum proc >%u<", &addr);
+    printf("\nnum proc >%s<", addr);
+    printf("\nnum proc >%s<", &addr);
+    printf("\nnum proc >%d<", addr);
+    printf("\nnum proc >%d<", &addr);
+
+    
+    return numprocs;
+
 }
 
 

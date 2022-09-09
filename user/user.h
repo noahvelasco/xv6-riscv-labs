@@ -1,4 +1,4 @@
-struct stat;
+;struct stat;
 struct rtcdate;
 struct uproc;
 

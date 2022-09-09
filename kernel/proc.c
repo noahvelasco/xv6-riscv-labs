@@ -5,8 +5,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
-#include "user/uproc.h"
-#include "user/user.h"
+
 
 struct cpu cpus[NCPU];
 
@@ -660,35 +659,40 @@ procdump(void)
 
 //HW1 - helper function for sys_getprocs that is filling out a processes info
 // Accessing kernel proc array and retrieves info for ALL processes 
-void procinfo(uproc *up){
-//    static char *states[] = {
-//      [UNUSED]    "unused",
-//      [SLEEPING]  "sleep ",
-//      [RUNNABLE]  "runble",
-//      [RUNNING]   "run   ",
-//      [ZOMBIE]    "zombie"
-//    };
-//  struct proc *p;
-//  char *state;
-
-  printf("\n");
-  for(p = proc; p < &proc[NPROC]; p++){
-    if(p->state == UNUSED)
-      continue;
-    if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
-      state = states[p->state];
-    else
-      state = "???";
-    printf("%d %s %s", p->pid, state, p->name);
-    printf("\n");
+int procinfo(uint64 addr){ //uint64 addr
     
 
-    up->pid = p->pid; //pid
-    up->state = p->state; //process state
-    up->size = p->size; //size of process memory 
-    up->ppid = p->parent->pid; //parent ID
-    up->name = p->name; //Proess command name
+  //------------------------------ Traverse Kernels Process Table
+  static char *states[] = {
+      [UNUSED]    "unused",
+      [SLEEPING]  "sleep ",
+      [RUNNABLE]  "runble",
+      [RUNNING]   "run   ",
+      [ZOMBIE]    "zombie"
+  };
+  
+  struct proc *callingp = myproc();
+  struct proc *currp;
+  char *state;
+  int numproc = 0;   
+
+  printf("\n");
+  for(currp = proc; currp < &proc[NPROC]; currp++){
+    if(currp->state == UNUSED)
+      continue;
+    if(currp->state >= 0 && currp->state < NELEM(states) && states[currp->state])
+      state = states[currp->state];
+    else
+      state = "???";
+    //Instead of printing each of the processes here - save to uproc rather than printing
+    numproc++;
+    copyout(callingp->pagetable, addr, (char *)&currp, sizeof(currp));
+    printf(">>> %d %s %s", currp->pid, state, currp->name);
+    printf("\n");
+
   }
-}
+//    printf("Total Processes: %d", len(proc[NPROC]);
+    return numproc;
+}//proc info
 
 
