@@ -101,29 +101,11 @@ sys_uptime(void)
 uint64
 sys_getprocs(uint64 addr) //uint64 addr as alt
 {
-//  struct file *f;
-//  uint64 st; // user pointer to struct stat
-//
-//  if(argfd(0, 0, &f) < 0 || argaddr(1, &st) < 0)
-//    return -1;
-//  return filestat(f, st); //in kernel/file.c and foes work of getting file info
-
-//   return 0;
 
     int numprocs = procinfo(addr);
+    //addr should be updated at this time already
 
-
-    printf("---------- getprocs() after procinfo call");
-    printf("\nnum proc >%u<", addr);    
-    printf("\nnum proc >%u<", &addr);
-    printf("\nnum proc >%s<", addr);
-    printf("\nnum proc >%s<", &addr);
-    printf("\nnum proc >%d<", addr);
-    printf("\nnum proc >%d<", &addr);
-
-    
     return numprocs;
-
 }
 
 

@@ -5,6 +5,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+//#include "user/uproc.h"
 
 
 struct cpu cpus[NCPU];
@@ -657,42 +658,57 @@ procdump(void)
 }
 
 
+;struct uproc{
+    int pid; //pid
+    enum procstate state; //process state
+    uint64 size; //size of process memory 
+    int ppid; //parent ID
+    char name[16]; //Proess command name
+};
 //HW1 - helper function for sys_getprocs that is filling out a processes info
 // Accessing kernel proc array and retrieves info for ALL processes 
 int procinfo(uint64 addr){ //uint64 addr
     
-
   //------------------------------ Traverse Kernels Process Table
-  static char *states[] = {
-      [UNUSED]    "unused",
-      [SLEEPING]  "sleep ",
-      [RUNNABLE]  "runble",
-      [RUNNING]   "run   ",
-      [ZOMBIE]    "zombie"
-  };
-  
+ 
   struct proc *callingp = myproc();
   struct proc *currp;
-  char *state;
+  struct uproc up; //individual uproc struct that will update as the forloop goes on
   int numproc = 0;   
-
   printf("\n");
   for(currp = proc; currp < &proc[NPROC]; currp++){
-    if(currp->state == UNUSED)
-      continue;
-    if(currp->state >= 0 && currp->state < NELEM(states) && states[currp->state])
-      state = states[currp->state];
-    else
-      state = "???";
+    if(currp->state != UNUSED){
+        printf("\n >>> IN IF \n");
     //Instead of printing each of the processes here - save to uproc rather than printing
-    numproc++;
-    copyout(callingp->pagetable, addr, (char *)&currp, sizeof(currp));
-    printf(">>> %d %s %s", currp->pid, state, currp->name);
-    printf("\n");
+        up.pid = currp->pid;
+        printf("up.pid = %d\n", currp->pid);
+        up.state = currp->state;
+        
+        up.size = currp->sz;
+        int c;
+        for (c =0; c<16; c++){
+            up.name[c] = currp->name[c];
+        }
+        if (currp->parent) {
+            up.ppid = currp->parent->pid;
+        }
+        else{
+            up.ppid = 0;
+        }
+        printf("up.name= %s\n", currp->name);
+        printf("\n%d ->", addr);
+        addr = addr + sizeof(up);
+        printf(" %d\n", addr);        
+        numproc++;
+        copyout(callingp->pagetable, addr, (char *)&up, sizeof(up));
 
-  }
-//    printf("Total Processes: %d", len(proc[NPROC]);
+    }//if active
+   
+  }//forloop
+
     return numproc;
 }//proc info
+
+
 
 
