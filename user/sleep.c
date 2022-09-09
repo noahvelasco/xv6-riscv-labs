@@ -7,8 +7,8 @@ main(int argc, char **argv)
 {
   int i;
   
-  if(argc < 2){
-    fprintf(2, "usage: sleeps...\n");
+  if(argc != 2){
+    fprintf(2, "Error: Need 2 args\n");
     exit(1);
   }
   for(i=1; i<argc; i++)
