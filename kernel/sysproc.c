@@ -99,13 +99,15 @@ sys_uptime(void)
 
 //#6 HW1 - TODO - look at sys_sleep and call procinfo() from here. 
 uint64
-sys_getprocs(uint64 addr) //uint64 addr as alt
-{
-
-    int numprocs = procinfo(addr);
+sys_getprocs(void) //uint64 addr as alt
+{   
+    uint64 addr;
+    if (argaddr(0, &addr) < 0 ){
+        return -1;
+    }
     //addr should be updated at this time already
 
-    return numprocs;
+    return procinfo(addr);
 }
 
 

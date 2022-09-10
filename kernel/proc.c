@@ -668,40 +668,32 @@ procdump(void)
 //HW1 - helper function for sys_getprocs that is filling out a processes info
 // Accessing kernel proc array and retrieves info for ALL processes 
 int procinfo(uint64 addr){ //uint64 addr
-    
+   
   //------------------------------ Traverse Kernels Process Table
  
   struct proc *callingp = myproc();
   struct proc *currp;
   struct uproc up; //individual uproc struct that will update as the forloop goes on
-  int numproc = 0;   
-  printf("\n");
+  int numproc = 0;
   for(currp = proc; currp < &proc[NPROC]; currp++){
-    if(currp->state != UNUSED){
-        printf("\n >>> IN IF \n");
+    if(currp->state != UNUSED && currp->state >= 0){
     //Instead of printing each of the processes here - save to uproc rather than printing
         up.pid = currp->pid;
-        printf("up.pid = %d\n", currp->pid);
-        up.state = currp->state;
-        
         up.size = currp->sz;
+
         int c;
         for (c =0; c<16; c++){
             up.name[c] = currp->name[c];
         }
-        if (currp->parent) {
+        if(currp->parent) {
             up.ppid = currp->parent->pid;
         }
         else{
             up.ppid = 0;
         }
-        printf("up.name= %s\n", currp->name);
-        printf("\n%d ->", addr);
-        addr = addr + sizeof(up);
-        printf(" %d\n", addr);        
         numproc++;
-        copyout(callingp->pagetable, addr, (char *)&up, sizeof(up));
-
+        copyout(callingp->pagetable, addr, (char *)&up, sizeof(struct uproc));
+        addr += sizeof(struct uproc);
     }//if active
    
   }//forloop

@@ -25,23 +25,12 @@ int main(int argc, char **argv)
     
     // You can remove the following print statement
   printf("\n---------%d processes active------------\n", nprocs);
-    
-//  printf("\npid 0 = %d\n", *(&uproc)[0]->pid);
-//  struct uproc *up;
-//
-//  printf("\n");
-//  int i = 0;
-//  for(up = uproc; up < uproc ; up+=sizeof(uproc) ){
-//    if(p->state == UNUSED)
-//      continue;
-//    if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
-//      state = states[p->state];
-//    else
-//      state = "???";
-//    printf("i = %d\n", i);
-//    printf("%d %s\n", up->pid, up->name);
-//    i++;
-//  }
+  
+  printf("pid\tppid\tsize\tname\n");
+  struct uproc *u;
+  for(u = uproc; u < &uproc[nprocs]; u++){
+    printf("%d\t%d\t%d\t%s\n", u->pid, u->ppid,u->size, u->name);
+  }
 
   exit(0);
 
