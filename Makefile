@@ -135,6 +135,8 @@ UPROGS=\
     $U/_sleep\
     $U/_ps\
     $U/_pstree\
+    $U/_pstest\
+
  
 
 
