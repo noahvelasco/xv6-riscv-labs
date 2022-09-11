@@ -42,8 +42,7 @@ int main(int argc, char **argv)
     exit(-1);
     
   // You can remove the following print statement
-  printf("\n---------%d processes active------------\n", nprocs);
-  
+  printf("\n---------pstree ------------\n", nprocs);
   mktree(uproc, nprocs, 0, 1); //starts with looking for init and indentation 0
 
 //  printf("pid\tppid\tsize\tname\n");
