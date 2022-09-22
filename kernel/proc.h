@@ -93,6 +93,12 @@ struct proc {
   int xstate;                  // Exit status to be returned to parent's wait
   int pid;                     // Process ID
 
+
+//  uint arrtime;              //Arrival Time in Ticks
+  uint cputime;                //Amount of cpu time accumulated (in ticks)
+//  uint tsticks;              //Ticks accumulated in current time slice
+    
+
   // wait_lock must be held when using this:
   struct proc *parent;         // Parent process
 

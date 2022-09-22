@@ -121,6 +121,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->cputime = 0;       //initialize to 0 here
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -664,6 +665,7 @@ procdump(void)
     uint64 size; //size of process memory 
     int ppid; //parent ID
     char name[16]; //Proess command name
+    uint cputime;
 };
 //HW1 - helper function for sys_getprocs that is filling out a processes info
 // Accessing kernel proc array and retrieves info for ALL processes 
@@ -691,6 +693,8 @@ int procinfo(uint64 addr){ //uint64 addr
         else{
             up.ppid = 0;
         }
+
+        up.cputime = currp->cputime;
         numproc++;
         copyout(callingp->pagetable, addr, (char *)&up, sizeof(struct uproc));
         addr += sizeof(struct uproc);
