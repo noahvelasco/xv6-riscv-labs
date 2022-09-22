@@ -26,10 +26,10 @@ int main(int argc, char **argv)
     // You can remove the following print statement
   printf("\n---------%d processes active------------\n", nprocs);
   
-  printf("pid\tppid\tsize\tname\n");
+  printf("pid\tppid\tsize\tname\tcputime\n");
   struct uproc *u;
   for(u = uproc; u < &uproc[nprocs]; u++){
-    printf("%d\t%d\t%d\t%s\n", u->pid, u->ppid,u->size, u->name);
+    printf("%d\t%d\t%d\t%s\t%d\n", u->pid, u->ppid,u->size, u->name,u->cputime);
   }
 
   exit(0);
