@@ -1,6 +1,7 @@
 ;struct stat;
 struct rtcdate;
 struct uproc;
+struct rusage;
 
 // system calls
 int fork(void);
@@ -44,3 +45,4 @@ void *memcpy(void *, const void *, uint);
 
 //prototype
 int getprocs(struct uproc*);
+int wait2(int*, struct rusage*); //just like wait but 1 more param

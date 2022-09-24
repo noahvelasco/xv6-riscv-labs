@@ -137,6 +137,7 @@ UPROGS=\
     $U/_pstree\
     $U/_pstest\
     $U/_matmul\
+    $U/_time\
 
  
 
