@@ -5,7 +5,6 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
-//#include "user/uproc.h"
 
 
 struct cpu cpus[NCPU];
@@ -442,18 +441,27 @@ wait(uint64 addr)
 // Return -1 if this process has no children.
 
 //This will also keep track how much cputime the process used
-int wait2(uint64 addr, struct rusage ru){
+int wait2(uint64 addr, uint64 rusage){
   struct proc *np;
   int havekids, pid;
   struct proc *p = myproc();
+  struct rusage ru;   
+
 
   acquire(&wait_lock);
 
   for(;;){
     // Scan through table looking for exited children.
     havekids = 0;
+
+    
     for(np = proc; np < &proc[NPROC]; np++){
+
+      
       if(np->parent == p){
+    
+        //ru.cputime=np->cputime;
+        //copyout(p->pagetable, addr, (char *)&ru.cputime, sizeof(ru.cputime));
         // make sure the child isn't still in exit() or swtch().
         acquire(&np->lock);
 
@@ -466,8 +474,8 @@ int wait2(uint64 addr, struct rusage ru){
                 1) Stick cputime into rusage
                 2) use copyout to copyout that value
           */
-
-          copyout(p->pagetable, addr, (char *)&ru, sizeof(struct rusage));
+          ru.cputime=np->cputime;
+          copyout(p->pagetable, rusage, (char *)&ru, sizeof(ru)); //(pagetable, dst, src, size)
 
           // Found one.
           pid = np->pid;
@@ -730,6 +738,7 @@ procdump(void)
 
 
 ;struct uproc{
+
     int pid; //pid
     enum procstate state; //process state
     uint64 size; //size of process memory 

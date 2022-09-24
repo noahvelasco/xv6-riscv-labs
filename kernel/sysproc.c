@@ -41,10 +41,12 @@ sys_wait(void)
 uint64
 sys_wait2(void)
 {
-  uint64 p;
-  if(argaddr(0, &p) < 0)
-    return -1;
-  return wait(p);
+
+  uint64 p1, p2;
+  
+  if(argaddr(0, &p1) < 0 || argaddr(1, &p2)<0){return -1;}
+    
+  return wait2(p1, p2);
 }
 
 
@@ -108,7 +110,7 @@ sys_uptime(void)
 }
 
 
-//#6 HW1 - TODO - look at sys_sleep and call procinfo() from here. 
+//#6 HW1 - look at sys_sleep and call procinfo() from here. 
 uint64
 sys_getprocs(void) //uint64 addr as alt
 {   

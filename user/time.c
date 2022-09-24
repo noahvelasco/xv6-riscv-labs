@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
         exec(newargv[0], newargv);
     wait2(0, &ru);//parent
     elapsed = uptime() - start;
-    printf("elapsed time: %d ticks, cpu time: %d ticks, %d CPU\n", elapsed, ru.cputime, ru.cputime*100/elapsed);
+    printf("elapsed time: %d ticks, cpu time: %d ticks, %d% CPU\n", elapsed, ru.cputime, ru.cputime*100/elapsed);
     exit(0);
 }// main
 
