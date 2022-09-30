@@ -79,6 +79,7 @@ usertrap(void)
   // give up the CPU if this is a timer interrupt.
   if(which_dev == 2){
     p->cputime++; //add 1 to cputime
+    p->tsticks++; //added to compare with timeslice
     yield();
     }
 
@@ -154,6 +155,7 @@ kerneltrap()
   // give up the CPU if this is a timer interrupt.
   if(which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING){
     myproc()->cputime++;
+    myproc()->tsticks++; //added for MLFQ - will help compare with timeslice
     yield();
     }
 
