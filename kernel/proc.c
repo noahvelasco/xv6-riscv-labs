@@ -267,7 +267,7 @@ userinit(void)
 
   p->state = RUNNABLE;
   //enqueue now
-  enqueue_at_tail(p,HIGH);
+  enqueue_at_tail(p,p->priority);
 
   release(&p->lock);
 }
@@ -338,7 +338,7 @@ fork(void)
 
   acquire(&np->lock);
   np->state = RUNNABLE;
-  enqueue_at_head(p, HIGH);
+  enqueue_at_tail(p, p->priority);
 
   release(&np->lock);
 
@@ -597,56 +597,34 @@ scheduler(void)
           release(&p->lock);
         }//for
       }else{
-//            printf("IMPLEMENTING MLFQ");
+
             struct proc *p;
             p = dequeue(HIGH);
             
-            if (!p){ 
-                printf("In !p\n");                
-                p = dequeue(HIGH);
+            if (!p){    
+
+                p = dequeue(MEDIUM);
             }
-//            if (!p){ p = dequeue(LOW);} 
-            if (p) {
-                   printf("in p\n");             
-                   dequeue(HIGH);
+            if (!p) {
+
+                p = dequeue(LOW);
           }
-
-
+            if (p){
+                //run round robin for this queue                
+                acquire(&p->lock);
+                if (p->state == RUNNABLE){
+                   p->state = RUNNING;
+                    c->proc = p;
+                    p->tsticks = 0;
+                    swtch(&c->context, &p->context);
+                    c->proc = 0;
+                }
+                release(&p->lock);
+            }
 
       }//else
+
     }//infinite forloop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }//scheduler
 
 // Switch to scheduler.  Must hold only p->lock
@@ -683,7 +661,7 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
-  enqueue_at_tail(p, HIGH);
+  enqueue_at_tail(p, p->priority);
   sched();
   release(&p->lock);
 }
@@ -752,7 +730,7 @@ wakeup(void *chan)
       acquire(&p->lock);
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
-        enqueue_at_tail(p, HIGH);
+        enqueue_at_head(p, p->priority);
       }
       release(&p->lock);
     }
@@ -774,7 +752,7 @@ kill(int pid)
       if(p->state == SLEEPING){
         // Wake process from sleep().
         p->state = RUNNABLE;
-        enqueue_at_tail(p, HIGH);
+        enqueue_at_tail(p, p->priority);
       }
       release(&p->lock);
       return 0;
