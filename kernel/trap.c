@@ -82,12 +82,12 @@ usertrap(void)
 
     p->cputime++; //add 1 to cputime
     p->tsticks++; //added to compare with timeslice
-    if( timeslice(p->priority) <= p->tsticks){
+    if( p->tsticks >= timeslice(p->priority)){
         if(p->priority > LOW){
             p->priority--;
+            yield();
         }//inner if
     }//outter if    
-    yield();
     
    }//if the ticks run for the timeslices 
 
@@ -165,21 +165,19 @@ kerneltrap()
     myproc()->cputime++;
     myproc()->tsticks++; //added for MLFQ - will help compare with timeslice
 
-    if(timeslice(myproc()->priority) <= myproc()->tsticks){
+    if( myproc()->tsticks >= timeslice(myproc()->priority)){
         if(myproc()->priority > LOW){
             myproc()->priority--;
+            yield();
         }//inner if
-    }//outter if
-
-    yield();
-
-    
+    }//outter if 
+    }
 
   // the yield() may have caused some traps to occur,
   // so restore trap registers for use by kernelvec.S's sepc instruction.
   w_sepc(sepc);
   w_sstatus(sstatus);
-}}
+}
 
 void
 clockintr()

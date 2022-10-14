@@ -15,7 +15,7 @@ struct proc *initproc;
 
 // Below 2 lines for timeslice()
 struct queue queue[NQUEUE];
-int sched_policy = MLFQ;  // Should be set to RR or MLFQ
+int sched_policy = RR;  // Should be set to RR or MLFQ
 
 int nextpid = 1;
 struct spinlock pid_lock;
@@ -546,7 +546,7 @@ scheduler(void)
 
 
   
-  c->proc = 0;
+//  c->proc = 0;
 //  for(;;){
 //    // Avoid deadlock by ensuring that devices can interrupt.
 //    intr_on();
@@ -598,9 +598,9 @@ scheduler(void)
         }//for
       }else{
 
-            struct proc *p;
             p = dequeue(HIGH);
             
+
             if (!p){    
 
                 p = dequeue(MEDIUM);
@@ -608,18 +608,17 @@ scheduler(void)
             if (!p) {
 
                 p = dequeue(LOW);
-          }
-            if (p){
-                //run round robin for this queue                
-                acquire(&p->lock);
-                if (p->state == RUNNABLE){
-                   p->state = RUNNING;
-                    c->proc = p;
-                    p->tsticks = 0;
-                    swtch(&c->context, &p->context);
-                    c->proc = 0;
-                }
-                release(&p->lock);
+            }
+            if(p){
+
+               //run round robin for this queue                
+               acquire(&p->lock);
+               p->tsticks = 0;
+               p->state = RUNNING;
+               c->proc = p;
+               swtch(&c->context, &p->context);
+               c->proc = 0;
+               release(&p->lock);
             }
 
       }//else
@@ -752,7 +751,7 @@ kill(int pid)
       if(p->state == SLEEPING){
         // Wake process from sleep().
         p->state = RUNNABLE;
-        enqueue_at_tail(p, p->priority);
+        enqueue_at_head(p, p->priority);
       }
       release(&p->lock);
       return 0;
