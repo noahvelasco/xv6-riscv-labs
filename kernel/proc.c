@@ -338,7 +338,7 @@ fork(void)
 
   acquire(&np->lock);
   np->state = RUNNABLE;
-  enqueue_at_tail(p, p->priority);
+  enqueue_at_tail(np, np->priority);
 
   release(&np->lock);
 
