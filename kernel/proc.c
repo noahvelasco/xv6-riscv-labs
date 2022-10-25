@@ -15,7 +15,7 @@ struct proc *initproc;
 
 // Below 2 lines for timeslice()
 struct queue queue[NQUEUE];
-int sched_policy = MLFQ;  // Should be set to RR or MLFQ
+int sched_policy = RR;  // Should be set to RR or MLFQ
 
 int nextpid = 1;
 struct spinlock pid_lock;

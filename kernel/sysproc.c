@@ -123,6 +123,10 @@ sys_getprocs(void) //uint64 addr as alt
     return procinfo(addr);
 }
 
+uint64 sys_freepmem(void){
+    return kfreepagecount();
+}
+
 
 
 

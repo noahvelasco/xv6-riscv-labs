@@ -113,6 +113,9 @@ void            queueinit(void);
 int             timeslice(int);
 int             queue_empty(int);
 
+int             freepmem(void); //Lab 3 task 1
+int             kfreepagecount(void); //Lab3 task 1
+
 //#6---------------------------------------------------------
 
 

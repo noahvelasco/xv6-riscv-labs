@@ -138,6 +138,7 @@ UPROGS=\
     $U/_pstest\
     $U/_matmul\
     $U/_time\
+    $U/_free\
 
  
 

@@ -46,3 +46,4 @@ void *memcpy(void *, const void *, uint);
 //prototype
 int getprocs(struct uproc*);
 int wait2(int*, struct rusage*); //just like wait but 1 more param
+int freepmem(void);
