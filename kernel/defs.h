@@ -108,6 +108,13 @@ void            procdump(void);
 int             procinfo(uint64 addr); //HW uint64 addr as alt
 int             wait2(uint64 p1, uint64 p2); //
 
+
+struct mmr_list* get_mmr_list(int);
+int alloc_mmr_listid(void);
+void dealloc_mmr_listid(int);
+void            mmrlistinit(void);
+
+
 //Lab 2 Task 4
 void            queueinit(void);
 int             timeslice(int);
@@ -184,6 +191,7 @@ uint64          walkaddr(pagetable_t, uint64);
 int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
+int             mapvpages(pagetable_t, uint64, uint64);
 
 // plic.c
 void            plicinit(void);

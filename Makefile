@@ -139,6 +139,7 @@ UPROGS=\
     $U/_matmul\
     $U/_time\
     $U/_free\
+    $U/_private\
 
  
 

@@ -23,3 +23,7 @@
 #define LOW          2
 #define MLFQ         1  // 0 for RR, 1 for MLFQ
 #define RR           0
+
+
+//Lab3 
+#define MAX_MMR	10   // maximum number of memory-mapped regions per process

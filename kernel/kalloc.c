@@ -88,7 +88,7 @@ int kfreepagecount(){
   r = kmem.freelist;
   int count = 0;
   while(r){
-    count++;
+    count+=PGSIZE;
     r = r->next;
   }//while
   release(&kmem.lock);
