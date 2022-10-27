@@ -1,3 +1,5 @@
+#define NULL 0
+
 ;struct stat;
 struct rtcdate;
 struct uproc;

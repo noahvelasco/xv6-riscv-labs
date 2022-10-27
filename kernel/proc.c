@@ -319,6 +319,7 @@ fork(void)
     return -1;
   }
   np->sz = p->sz;
+  np->cur_max = p->cur_max;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
