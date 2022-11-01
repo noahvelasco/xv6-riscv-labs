@@ -4,6 +4,7 @@
 struct rtcdate;
 struct uproc;
 struct rusage;
+struct buffer_t;
 
 // system calls
 int fork(void);
@@ -49,3 +50,10 @@ void *memcpy(void *, const void *, uint);
 int getprocs(struct uproc*);
 int wait2(int*, struct rusage*); //just like wait but 1 more param
 int freepmem(void);
+int mmap(int, int, uint,uint,int,int);
+int mummap(struct buffer_t*,int);
+
+
+
+
+

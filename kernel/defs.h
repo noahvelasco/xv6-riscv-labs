@@ -108,20 +108,21 @@ void            procdump(void);
 int             procinfo(uint64 addr); //HW uint64 addr as alt
 int             wait2(uint64 p1, uint64 p2); //
 
-
-struct mmr_list* get_mmr_list(int);
-int alloc_mmr_listid(void);
-void dealloc_mmr_listid(int);
-void            mmrlistinit(void);
-
-
 //Lab 2 Task 4
 void            queueinit(void);
 int             timeslice(int);
 int             queue_empty(int);
 
+//Lab 3
+struct          mmr_list* get_mmr_list(int);
+int             alloc_mmr_listid(void);
+void            dealloc_mmr_listid(int);
+void            mmrlistinit(void);
 int             freepmem(void); //Lab 3 task 1
 int             kfreepagecount(void); //Lab3 task 1
+int             mmap(void);
+int             mummap(uint64,int);
+
 
 //#6---------------------------------------------------------
 

@@ -107,6 +107,9 @@ extern uint64 sys_uptime(void);
 extern uint64 sys_getprocs(void); //added by Noah - part 7 of HW2 pt 1
 extern uint64 sys_wait2(void);
 extern uint64 sys_freepmem(void);
+extern uint64 sys_mmap(void); //lab3
+extern uint64 sys_munmap(void);//lab3
+
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -133,6 +136,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_getprocs] sys_getprocs,  //added by Noah - part 7 of HW2 pt 1
 [SYS_wait2] sys_wait2, //added by noah - lab 2 milestone 1
 [SYS_freepmem] sys_freepmem, //added by noah - lab3 task 1
+[SYS_mmap] sys_mmap,
+[SYS_munmap] sys_munmap,
 };
 
 void

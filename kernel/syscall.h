@@ -23,3 +23,5 @@
 #define SYS_getprocs 22
 #define SYS_wait2 23
 #define SYS_freepmem 24
+#define SYS_mmap 25
+#define SYS_munmap 26
