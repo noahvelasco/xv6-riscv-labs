@@ -121,7 +121,7 @@ void            mmrlistinit(void);
 int             freepmem(void); //Lab 3 task 1
 int             kfreepagecount(void); //Lab3 task 1
 int             mmap(void);
-int             mummap(uint64,int);
+int             munmap(uint64,uint64);
 
 
 //#6---------------------------------------------------------

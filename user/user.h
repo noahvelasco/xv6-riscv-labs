@@ -50,8 +50,8 @@ void *memcpy(void *, const void *, uint);
 int getprocs(struct uproc*);
 int wait2(int*, struct rusage*); //just like wait but 1 more param
 int freepmem(void);
-int mmap(int, int, uint,uint,int,int);
-int mummap(struct buffer_t*,int);
+void *mmap(void*, uint64, int,int,int,int);
+int munmap(void*, int);
 
 
 
