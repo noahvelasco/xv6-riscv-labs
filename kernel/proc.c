@@ -5,6 +5,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "stat.h"
 
 
 struct cpu cpus[NCPU];
@@ -174,9 +175,40 @@ found:
 static void
 freeproc(struct proc *p)
 {
+
+  int dofree;//added  from Dr. Moore
+
   if(p->trapframe)
     kfree((void*)p->trapframe);
   p->trapframe = 0;
+
+  //code given from Dr. Moores doc
+  for (int i = 0; i < MAX_MMR; i++) {
+    dofree = 0;
+    if (p->mmr[i].valid == 1) {
+      if (p->mmr[i].flags & MAP_PRIVATE){
+        //dofree = 1;
+    }
+      else { // MAP_SHARED
+        acquire(&mmr_list[p->mmr[i].mmr_family.listid].lock);
+        if (p->mmr[i].mmr_family.next == &(p->mmr[i].mmr_family)) { // no other family members
+          dofree = 1;
+          release(&mmr_list[p->mmr[i].mmr_family.listid].lock);
+          dealloc_mmr_listid(p->mmr[i].mmr_family.listid);
+        } else {  // remove p from mmr family
+          (p->mmr[i].mmr_family.next)->prev = p->mmr[i].mmr_family.prev;
+          (p->mmr[i].mmr_family.prev)->next = p->mmr[i].mmr_family.next;
+          release(&mmr_list[p->mmr[i].mmr_family.listid].lock);
+        }
+      }
+      // Remove region mappings from page table
+      for (uint64 addr = p->mmr[i].addr; addr < p->mmr[i].addr + p->mmr[i].length; addr += PGSIZE)
+        if (walkaddr(p->pagetable, addr))
+          uvmunmap(p->pagetable, addr, 1, dofree);
+    }
+  }//for
+
+
   if(p->pagetable)
     proc_freepagetable(p->pagetable, p->sz);
   p->pagetable = 0;
@@ -188,7 +220,8 @@ freeproc(struct proc *p)
   p->killed = 0;
   p->xstate = 0;
   p->state = UNUSED;
-}
+
+}//freeproc
 
 // Create a user page table for a given process,
 // with no user memory, but with trampoline pages.
