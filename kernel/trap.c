@@ -82,7 +82,6 @@ usertrap(void)
         }
         //store fault
         if(r_scause() == 15 && (p->mmr[i].prot & PTE_W)){
-            printf(">>> 15 store fault\n");
             uint64 physAddr = (uint64)kalloc();//zero after 
             uint64 startAddr = PGROUNDDOWN(faultAddr);
  
