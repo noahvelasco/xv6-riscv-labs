@@ -128,6 +128,20 @@ uint64 sys_freepmem(void){
 }
 
 
+uint64 sem_init(void){
+return 1;
+}
+uint64 sem_destroy(void){
+return 1;
+}
+uint64 sem_wait(void){
+return 1;
+}
+uint64 sem_post(void){
+return 1;
+}
+
+
 
 
 

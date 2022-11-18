@@ -53,7 +53,11 @@ int freepmem(void);
 void *mmap(void*, uint64, int,int,int,int);
 int munmap(void*, int);
 
-
+//lab 4
+int sem_init(sem_t sem*, int, uint);
+int sem_destroy(sem_t sem*);
+int sem_wait(sem_t sem*);
+int sem_post(sem_t sem*);
 
 
 

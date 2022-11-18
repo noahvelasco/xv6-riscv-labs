@@ -41,4 +41,8 @@ entry("wait2");
 entry("freepmem");
 entry("mmap");#lab3
 entry("munmap");#lab3
+entry("sem_init");
+entry("sem_destroy");
+entry("sem_wait");
+entry("sem_post");
 
