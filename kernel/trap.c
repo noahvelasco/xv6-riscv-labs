@@ -83,7 +83,6 @@ usertrap(void)
             if (!(p->mmr[i].prot & PTE_R)){p->killed=1;}
             else{
 
-            printf(">>> 13 load fault\n");
             uint64 physAddr = (uint64)kalloc();//zero after 
             uint64 startAddr = PGROUNDDOWN(faultAddr);
  
