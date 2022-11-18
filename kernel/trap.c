@@ -74,28 +74,48 @@ usertrap(void)
     
     int i;
     for(i=0; i<MAX_MMR; i++){
-        if((p->mmr[i].valid) && (faultAddr >= p->mmr[i].addr) && faultAddr < (p->mmr[i].addr + p->mmr[i].length)){
+        if((p->mmr[i].valid) && (faultAddr >= p->mmr[i].addr) && faultAddr < (p->mmr[i].addr + p->mmr[i].length) ){
     
         //if load fault
-        if (r_scause() == 13 && (p->mmr[i].prot & PTE_R)){
+        //if (r_scause() == 13 && (p->mmr[i].prot & PTE_R)){
+        if (r_scause() == 13){
+
+            if (!(p->mmr[i].prot & PTE_R)){p->killed=1;}
+            else{
+
             printf(">>> 13 load fault\n");
-        }
-        //store fault
-        if(r_scause() == 15 && (p->mmr[i].prot & PTE_W)){
             uint64 physAddr = (uint64)kalloc();//zero after 
             uint64 startAddr = PGROUNDDOWN(faultAddr);
  
             //mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
             mappages(p->pagetable,startAddr,PGSIZE,physAddr,p->mmr[i].prot | PTE_U);
-
+            }
         }
+       
+        //store fault
+        //if(r_scause() == 15 && (p->mmr[i].prot & PTE_W)){
+        if(r_scause() == 15){
 
-
-    }//outter if
-
+            if (!(p->mmr[i].prot & PTE_W)){p->killed=1;}
+            else{
+            uint64 physAddr = (uint64)kalloc();//zero after 
+            uint64 startAddr = PGROUNDDOWN(faultAddr);
+ 
+            //mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
+            mappages(p->pagetable,startAddr,PGSIZE,physAddr,p->mmr[i].prot | PTE_U);
+            }
+        }
         
+        break;
+        
+        }//outter if
 
     }//for
+
+    if (i==MAX_MMR){
+        p->killed=1;
+    }
+
 
     }else {
     printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);

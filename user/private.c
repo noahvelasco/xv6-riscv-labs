@@ -18,6 +18,8 @@ buffer_t *buffer;
 
 void producer()
 {
+
+
     while(1) {
         if (buffer->num_produced >= MAX)
 	    return;
@@ -29,6 +31,7 @@ void producer()
 
 void consumer()
 {
+
     while(1) {
         if (buffer->num_consumed >= MAX) 
 	    return;
@@ -45,11 +48,13 @@ main(int argc, char *argv[])
 		               PROT_READ | PROT_WRITE,
 			       MAP_ANONYMOUS | MAP_PRIVATE,
 			       -1, 0);
+
     buffer->nextin = 0;
     buffer->nextout = 0;
     buffer->num_produced = 0;
     buffer->num_consumed = 0;
     buffer->total = 0;
+
 
     producer();
     consumer();
