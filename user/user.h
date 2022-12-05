@@ -52,6 +52,7 @@ int wait2(int*, struct rusage*); //just like wait but 1 more param
 int freepmem(void);
 void *mmap(void*, uint64, int,int,int,int);
 int munmap(void*, int);
+int fstat2(int fd, struct stat*); //lab 5 similar to other filestat
 
 
 

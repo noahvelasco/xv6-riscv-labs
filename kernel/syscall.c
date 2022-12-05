@@ -109,6 +109,7 @@ extern uint64 sys_wait2(void);
 extern uint64 sys_freepmem(void);
 extern uint64 sys_mmap(void); //lab3
 extern uint64 sys_munmap(void);//lab3
+extern uint64 sys_fstat2(void);//lab5
 
 
 static uint64 (*syscalls[])(void) = {
@@ -138,6 +139,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_freepmem] sys_freepmem, //added by noah - lab3 task 1
 [SYS_mmap] sys_mmap,
 [SYS_munmap] sys_munmap,
+[SYS_fstat2] sys_fstat2,
 };
 
 void

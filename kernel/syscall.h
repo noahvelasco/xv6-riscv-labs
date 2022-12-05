@@ -25,3 +25,5 @@
 #define SYS_freepmem 24
 #define SYS_mmap 25
 #define SYS_munmap 26
+#define SYS_fstat2 27
+
