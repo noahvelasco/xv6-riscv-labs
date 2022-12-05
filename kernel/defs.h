@@ -54,7 +54,8 @@ int             readi(struct inode*, int, uint64, uint, uint);
 void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, int, uint64, uint, uint);
 void            itrunc(struct inode*);
-int 		    fstat(struct file*, uint64 addr); //lab 5 similar to fstat
+int 		    fstat(int, struct stat *); //lab 5
+
 
 // ramdisk.c
 void            ramdiskinit(void);

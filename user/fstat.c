@@ -42,7 +42,14 @@ ls(char *path)
 
   switch(st.type){
   case T_FILE:
-    printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
+    //printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
+
+
+    if (st.type==1){printf("name: %s \ttype: directory\n",fmtname(path));}
+    else if (st.type==2){printf("name: %s \ttype: regular file\n",fmtname(path));}
+
+    printf("size: %d\n", st.size);
+    printf("inode number: %d\t links: %d\n", st.ino, st.nlink);
     break;
 
   case T_DIR:
@@ -62,7 +69,15 @@ ls(char *path)
         printf("ls: cannot stat %s\n", buf);
         continue;
       }
-      printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
+
+      /*
+      Go ahead and print everything now
+      */
+      //printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
+      if (st.type==1){printf("name: %s \ttype: directory\n",fmtname(path));}
+      else if (st.type==2){printf("name: %s \ttype: regular file\n",fmtname(path));}
+      printf("size: %d\n", st.size);
+      printf("inode number: %d\t links: %d\n", st.ino, st.nlink);
     }
     break;
   }
